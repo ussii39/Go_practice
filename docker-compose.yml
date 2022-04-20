@@ -44,7 +44,7 @@ services:
   myapp:
     build:
       context: .
-      dockerfile: ./web/dockerfile
+      dockerfile: dockerfile
     container_name: myapp
     stdin_open: true
     tty: true
