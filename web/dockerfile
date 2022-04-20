@@ -17,18 +17,18 @@ RUN go get github.com/dgrijalva/jwt-go
 RUN go get github.com/go-sql-driver/mysql 
 RUN go get github.com/google/uuid 
 RUN go get github.com/julienschmidt/httprouter 
-RUN go get github.com/tnkyk/LayeredArch_sample 
+RUN go get github.com/ussii39/Go_practice
 RUN go get golang.org/x/crypto 
 RUN go get google.golang.org/appengine 
 RUN go get gopkg.in/go-ini/ini.v1 
 RUN go get gopkg.in/ini.v1 
 
 # # バイナリーファイルを取得 
-# RUN go install github.com/tnkyk/clean_book_go/cmd/api
+RUN go install github.com/ussii39/Go_practice/web
 # # Linux用バイナリファイルをgo build して取得
-# RUN  GOOS=linux GOARCH=amd64 go build ./cmd/api/main.go
+RUN  GOOS=linux GOARCH=amd64 go build ./web/main.go
 
 # ポートの指定
 EXPOSE 9000 
 #バイナリファイルの実行
-CMD [ "./web/main" ]
+CMD [ "./main" ]

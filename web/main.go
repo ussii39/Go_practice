@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
-	"https://github.com/julienschmidt/httprouter"
+
+	"github.com/julienschmidt/httprouter"
 	"github.com/tnkyk/clean_book_go/config"
 	logging "github.com/tnkyk/clean_book_go/handler"
 	"github.com/tnkyk/clean_book_go/handler/rest"
