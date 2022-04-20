@@ -4,12 +4,12 @@ FROM golang:1.16
 # MAINTAINER user <user@example.com>
 
 # 作業用ディレクトリを指定
-WORKDIR /go/src/
+WORKDIR /go/src
 
 # カレントディレクトリの全てのファイルやディレクトリをコンテナのrootディレクトリにコピー
 COPY . .
 
-RUN go mod init
+# RUN go mod init
 
 # APIサーバーで用いたライブラリを取得
 RUN go get github.com/davecgh/go-spew 
@@ -17,7 +17,7 @@ RUN go get github.com/dgrijalva/jwt-go
 RUN go get github.com/go-sql-driver/mysql 
 RUN go get github.com/google/uuid 
 # RUN go get github.com/julienschmidt/httprouter 
-RUN go get github.com/ussii39/Go_practice
+# RUN go get github.com/ussii39/Go_practice
 RUN go get golang.org/x/crypto 
 RUN go get google.golang.org/appengine 
 RUN go get gopkg.in/go-ini/ini.v1 
@@ -31,4 +31,4 @@ RUN go get gopkg.in/ini.v1
 # ポートの指定
 EXPOSE 9000 
 #バイナリファイルの実行
-CMD [ "./web/main" ]
+CMD ["go", "run", "./web/main.go"]
