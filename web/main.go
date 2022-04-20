@@ -1,26 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net/http"
+	"os"
 )
 
 func main() {
-	//指定したLogFileにlogを出力するための設定
-	// logging.LoggingSetting(config.Config.LogFile)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		_, _ = fmt.Fprint(w, "Hello, 世界！")
+	})
 
-	// userPersistence := persistence.NewUserPersistence()
-	// userUseCase := usecase.NewUserUsecase(userPersistence)
-	// userHandler := rest.NewUserHandler(userUseCase)
-
-	// httprouterを用いてハンドラーを登録する
-	// Router := httprouter.New()
-	// Router.GET("/api/users", userHandler.Index)
-	// Router.POST("/api/signup", userHandler.SignUp)
-	// Router.POST("/api/signin", userHandler.SignIn)
-	//ポート9000で待ち受け
-	// err := http.ListenAndServe(":9000", Router)
-	// if err != nil {
-	// log.Fatalf("Listen and serve failed. %+v", err)
-	// }
-	log.Println("Server running...")
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 }

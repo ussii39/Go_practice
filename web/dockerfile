@@ -1,34 +1,43 @@
-#golangの最新バージョンのimageを指定
-FROM golang:latest
-#作成者情報を記入
-# MAINTAINER user <user@example.com>
+# #golangの最新バージョンのimageを指定
+# FROM golang:latest
+# #作成者情報を記入
+# # MAINTAINER user <user@example.com>
 
-# 作業用ディレクトリを指定
-WORKDIR /go/src/github.com/tnkyk/clean_book_go
+# # 作業用ディレクトリを指定
+# WORKDIR /go/src/github.com/tnkyk/clean_book_go
 
-# カレントディレクトリの全てのファイルやディレクトリをコンテナのrootディレクトリにコピー
+# # カレントディレクトリの全てのファイルやディレクトリをコンテナのrootディレクトリにコピー
+# COPY . .
+
+# RUN go mod init
+
+# # APIサーバーで用いたライブラリを取得
+# RUN go get github.com/davecgh/go-spew 
+# RUN go get github.com/dgrijalva/jwt-go 
+# RUN go get github.com/go-sql-driver/mysql 
+# RUN go get github.com/google/uuid 
+# # RUN go get github.com/julienschmidt/httprouter 
+# RUN go get github.com/ussii39/Go_practice
+# RUN go get golang.org/x/crypto 
+# RUN go get google.golang.org/appengine 
+# RUN go get gopkg.in/go-ini/ini.v1 
+# RUN go get gopkg.in/ini.v1 
+
+# # # バイナリーファイルを取得 
+# RUN go install github.com/ussii39/Go_practice/web
+# # # Linux用バイナリファイルをgo build して取得
+# RUN  GOOS=linux GOARCH=amd64 go build ./web/main.go
+
+# # ポートの指定
+# EXPOSE 9000 
+# #バイナリファイルの実行
+# CMD [ "./main" ]
+
+FROM golang:1.16
+
+WORKDIR /go/src/app
 COPY . .
 
-RUN go mod init
+RUN go get -d -v ./...
 
-# APIサーバーで用いたライブラリを取得
-RUN go get github.com/davecgh/go-spew 
-RUN go get github.com/dgrijalva/jwt-go 
-RUN go get github.com/go-sql-driver/mysql 
-RUN go get github.com/google/uuid 
-# RUN go get github.com/julienschmidt/httprouter 
-RUN go get github.com/ussii39/Go_practice
-RUN go get golang.org/x/crypto 
-RUN go get google.golang.org/appengine 
-RUN go get gopkg.in/go-ini/ini.v1 
-RUN go get gopkg.in/ini.v1 
-
-# # バイナリーファイルを取得 
-RUN go install github.com/ussii39/Go_practice/web
-# # Linux用バイナリファイルをgo build して取得
-RUN  GOOS=linux GOARCH=amd64 go build ./web/main.go
-
-# ポートの指定
-EXPOSE 9000 
-#バイナリファイルの実行
-CMD [ "./main" ]
+CMD ["go", "run", "./web"]
