@@ -1,54 +1,54 @@
-# version: "3"
-
-# services:
-#   db:
-#     platform: linux/x86_64 
-#     image: mysql:5.7.22 #ベースイメージの設定　imageかbuildどちらかは必須
-#     restart: always #コンテナ起動時に自動起動する設定。自動起動させたくない場合はこの記述を削除すれば良い
-#     container_name: myapp-db #コンテナの名前を決める、あってもなくても良い
-#     ports:
-#       - 3306:3306 #どのポートを開放するかを設定":"の左側はホストのポート、右側はコンテナのポート
-#     volumes: # ./mysqlと言うローカルディレクトりをコンテナの指定ディレクトリにマウント
-#       - ./db:/docker-entrypoint-initdb.d
-#     #environment: #環境変数を指定する場合はこのように記述する。
-#       # MYSQL_ROOT_USERNAME: root
-#       # MYSQL_ROOT_PASSWORD: root
-#       # MYSQL_DATABASE: database
-#       # MYSQL_USER:     root
-#       # MYSQL_PASSWORD: root
-#       # TZ: Asia/Tokyo
-#   web:
-#     platform: linux/x86_64 
-#     build: #dockerfileの指定
-#       context: .
-#       dockerfile: ./web/dockerfile
-#     container_name: myapp-go
-#     volumes: 
-#       - .:/go/src/github.com/tnkyk/clean_book_go
-#     ports:
-#       - 9000:9000
-#     depends_on: #DBに依存している　APIサーバがDBにアクセスする。アクセス方向にdepends_onを指定
-#       - db
-#   proxy:
-#     platform: linux/x86_64 
-#     build: ./nginx
-#     container_name: myapp-nginx
-#     ports:
-#       - 8000:80
-#     depends_on:
-#       - web
-
 version: "3"
 
 services:
-  myapp:
-    build:
-      context: .
-      dockerfile: dockerfile
-    container_name: myapp
-    stdin_open: true
-    tty: true
-    volumes:
-      - .:/go/src/app
+  db:
+    platform: linux/x86_64 
+    image: mysql:5.7.22 #ベースイメージの設定　imageかbuildどちらかは必須
+    restart: always #コンテナ起動時に自動起動する設定。自動起動させたくない場合はこの記述を削除すれば良い
+    container_name: myapp-db #コンテナの名前を決める、あってもなくても良い
     ports:
-      - 8000:8000
+      - 3306:3306 #どのポートを開放するかを設定":"の左側はホストのポート、右側はコンテナのポート
+    volumes: # ./mysqlと言うローカルディレクトりをコンテナの指定ディレクトリにマウント
+      - ./db:/docker-entrypoint-initdb.d
+    #environment: #環境変数を指定する場合はこのように記述する。
+      # MYSQL_ROOT_USERNAME: root
+      # MYSQL_ROOT_PASSWORD: root
+      # MYSQL_DATABASE: database
+      # MYSQL_USER:     root
+      # MYSQL_PASSWORD: root
+      # TZ: Asia/Tokyo
+  web:
+    platform: linux/x86_64 
+    build: #dockerfileの指定
+      context: .
+      dockerfile: ./web/dockerfile
+    container_name: myapp-go
+    volumes: 
+      - .:/go/src/github.com/tnkyk/clean_book_go
+    ports:
+      - 9000:9000
+    depends_on: #DBに依存している　APIサーバがDBにアクセスする。アクセス方向にdepends_onを指定
+      - db
+  proxy:
+    platform: linux/x86_64 
+    build: ./nginx
+    container_name: myapp-nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - web
+
+# version: "3"
+
+# services:
+#   myapp:
+#     build:
+#       context: .
+#       dockerfile: dockerfile
+#     container_name: myapp
+#     stdin_open: true
+#     tty: true
+#     volumes:
+#       - .:/go/src/app
+#     ports:
+#       - 8080:8080
